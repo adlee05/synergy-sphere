@@ -11,7 +11,6 @@ export default (sequelize) => sequelize.define('File', {
   file_type: { type: DataTypes.STRING(100) },
   file_extension: { type: DataTypes.STRING(10) },
   is_image: { type: DataTypes.BOOLEAN, defaultValue: false },
-  download_count: { type: DataTypes.INTEGER, defaultValue: 0 },
   created_at: { type: DataTypes.DATE, defaultValue: DataTypes.NOW }
 }, { tableName: 'files', timestamps: false });
 
