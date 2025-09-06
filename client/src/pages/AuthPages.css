@@ -1,6 +1,42 @@
 /* Auth Pages Styles */
-.auth-container {
+.auth-page-wrapper {
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-primary);
+}
+
+/* Header Template */
+.auth-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px 40px;
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.auth-page-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.auth-page-login-link {
+  color: var(--text-primary);
+  text-decoration: underline;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.auth-page-login-link:hover {
+  color: var(--primary-color);
+}
+
+.auth-container {
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -224,7 +260,7 @@
     font-size: 16px;
   }
 }
-
+ 
 @media (max-width: 480px) {
   .auth-card {
     padding: 20px;
@@ -237,5 +273,92 @@
   
   .auth-form {
     gap: 20px;
+  }
+}
+
+/* Footer Template */
+.auth-page-footer {
+  padding: 20px 40px;
+  background: var(--bg-primary);
+  border-top: 1px solid var(--border-color);
+}
+
+.terms-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.terms-checkbox input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  accent-color: var(--primary-color);
+  cursor: pointer;
+}
+
+.terms-checkbox label {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  cursor: pointer;
+  margin: 0;
+}
+
+.terms-checkbox label strong {
+  color: var(--text-primary);
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.terms-checkbox label strong:hover {
+  color: var(--primary-color);
+}
+
+/* Responsive Design for Header and Footer */
+@media (max-width: 768px) {
+  .auth-page-header {
+    padding: 16px 20px;
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  
+  .auth-page-title {
+    font-size: 1.5rem;
+  }
+  
+  .auth-page-footer {
+    padding: 16px 20px;
+  }
+  
+  .terms-checkbox {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .terms-checkbox input[type="checkbox"] {
+    align-self: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-page-header {
+    padding: 12px 16px;
+  }
+  
+  .auth-page-title {
+    font-size: 1.25rem;
+  }
+  
+  .auth-page-footer {
+    padding: 12px 16px;
+  }
+  
+  .terms-checkbox label {
+    font-size: 0.8rem;
   }
 }

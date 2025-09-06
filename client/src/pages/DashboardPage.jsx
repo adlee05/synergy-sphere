@@ -1,12 +1,47 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
-import { FaSun, FaMoon, FaSignOutAlt, FaUser } from 'react-icons/fa';
+import { FaSun, FaMoon, FaUser, FaEllipsisV, FaSearch, FaPlus } from 'react-icons/fa';
 import './DashboardPage.css';
 
 const DashboardPage = () => {
   const { user, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
+  const [searchQuery, setSearchQuery] = useState('');
+  const [activeNav, setActiveNav] = useState('projects');
+
+  const projects = [
+    {
+      id: 1,
+      title: 'RD Services',
+      image: '/api/placeholder/300/200',
+      date: '21/03/02',
+      deadline: 'D-18',
+      tasks: 10,
+      labels: ['Services', 'Castener Gare'],
+      color: 'purple'
+    },
+    {
+      id: 2,
+      title: 'RD Sales',
+      image: '/api/placeholder/300/200',
+      date: '21/03/22',
+      deadline: 'D-18',
+      tasks: 200,
+      labels: ['Help', 'Payment'],
+      color: 'purple'
+    },
+    {
+      id: 3,
+      title: 'RD Upgrade',
+      image: '/api/placeholder/300/200',
+      date: '21/03/22',
+      deadline: 'D-18',
+      tasks: 0,
+      labels: ['Upgrade', 'Migration'],
+      color: 'blue'
+    }
+  ];
 
   const handleLogout = () => {
     logout();
@@ -14,56 +49,109 @@ const DashboardPage = () => {
 
   return (
     <div className="dashboard-container">
-      <header className="dashboard-header">
-        <div className="header-content">
-          <h1>SynergySphere</h1>
-          <div className="header-actions">
-            <div className="user-info">
-              <FaUser className="user-icon" />
-              <span>Welcome, {user?.firstName || user?.email}</span>
-            </div>
+      {/* Sidebar */}
+      <aside className="sidebar">
+        <nav className="sidebar-nav">
+          <div 
+            className={`nav-item ${activeNav === 'projects' ? 'active' : ''}`}
+            onClick={() => setActiveNav('projects')}
+          >
+            Projects
+          </div>
+          <div 
+            className={`nav-item ${activeNav === 'tasks' ? 'active' : ''}`}
+            onClick={() => setActiveNav('tasks')}
+          >
+            My Tasks
+          </div>
+        </nav>
+
+        <div className="sidebar-footer">
+          <div className="theme-toggle-container">
             <button className="theme-toggle" onClick={toggleTheme}>
               {theme === 'light' ? <FaMoon /> : <FaSun />}
             </button>
-            <button className="logout-button" onClick={handleLogout}>
-              <FaSignOutAlt />
-              Logout
+          </div>
+          
+          <div className="user-profile">
+            <div className="user-avatar">
+              <FaUser />
+            </div>
+            <div className="user-info">
+              <div className="user-name">Test User</div>
+              <div className="user-email">user@mail</div>
+            </div>
+            <button className="user-menu">
+              <FaEllipsisV />
             </button>
           </div>
         </div>
-      </header>
+      </aside>
 
-      <main className="dashboard-main">
-        <div className="dashboard-content">
-          <div className="welcome-section">
-            <h2>Welcome to SynergySphere</h2>
-            <p>Your Advanced Team Collaboration Platform</p>
+      {/* Main Content */}
+      <main className="main-content">
+        {/* Header */}
+        <header className="dashboard-header">
+          <div className="header-left">
+            <div className="company-info">
+              <span className="company-name">Company</span>
+              <div className="company-icon">🏢</div>
+            </div>
           </div>
-
-          <div className="dashboard-grid">
-            <div className="dashboard-card">
-              <h3>Projects</h3>
-              <p>Manage your team projects and track progress</p>
-              <button className="card-button">View Projects</button>
+          
+          <div className="header-center">
+            <div className="search-container">
+              <FaSearch className="search-icon" />
+              <input
+                type="text"
+                placeholder="Search..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="search-input"
+              />
             </div>
+          </div>
+          
+          <div className="header-right">
+            <button className="header-menu">
+              <FaEllipsisV />
+            </button>
+            <button className="new-project-btn">
+              <FaPlus />
+              New Project
+            </button>
+          </div>
+        </header>
 
-            <div className="dashboard-card">
-              <h3>Team Members</h3>
-              <p>Connect and collaborate with your team</p>
-              <button className="card-button">Manage Team</button>
-            </div>
-
-            <div className="dashboard-card">
-              <h3>Messages</h3>
-              <p>Communicate with your team members</p>
-              <button className="card-button">Open Messages</button>
-            </div>
-
-            <div className="dashboard-card">
-              <h3>Analytics</h3>
-              <p>Track team performance and insights</p>
-              <button className="card-button">View Analytics</button>
-            </div>
+        {/* Content Area */}
+        <div className="content-area">
+          <div className="content-header">
+            <h2>Projects</h2>
+          </div>
+          
+          <div className="projects-grid">
+            {projects.map((project) => (
+              <div key={project.id} className="project-card">
+                <div className="project-image">
+                  <div className={`project-bg ${project.color}`}></div>
+                  <div className="project-labels">
+                    {project.labels.map((label, index) => (
+                      <span key={index} className="project-label">{label}</span>
+                    ))}
+                  </div>
+                </div>
+                
+                <div className="project-content">
+                  <h3 className="project-title">{project.title}</h3>
+                  
+                  <div className="project-meta">
+                    <div className="project-date">{project.date}</div>
+                    <div className="project-deadline">{project.deadline}</div>
+                    <div className="project-tasks">{project.tasks} tasks</div>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </main>
