@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
-import authService from '../services/authService';
 import { FaEye, FaEyeSlash, FaSun, FaMoon } from 'react-icons/fa';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -35,8 +34,7 @@ const LoginPage = () => {
     setError('');
 
     try {
-      const response = await authService.login(formData);
-      login(response.token);
+      await login(formData);
       navigate('/dashboard');
     } catch (error) {
       setError(error.message || 'Login failed. Please try again.');
