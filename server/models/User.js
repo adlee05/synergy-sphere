@@ -6,6 +6,5 @@ export default (sequelize) => sequelize.define('User', {
   password: { type: DataTypes.STRING, allowNull: false },
   first_name: { type: DataTypes.STRING(100), allowNull: false },
   last_name: { type: DataTypes.STRING(100), allowNull: false },
-  role: { type: DataTypes.ENUM('admin', 'member'), defaultValue: 'member' },
   created_at: { type: DataTypes.DATE, defaultValue: DataTypes.NOW }
 }, { tableName: 'users', timestamps: false });
