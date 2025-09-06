@@ -1,6 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getAnalytics } from 'firebase/analytics';
+import { getFirestore } from 'firebase/firestore';
 
 // Your Firebase config object
 const firebaseConfig = {
@@ -32,5 +33,8 @@ export const auth = getAuth(app);
 
 // Initialize Analytics (only in production)
 export const analytics = typeof window !== 'undefined' ? getAnalytics(app) : null;
+
+// Initialize Cloud Firestore and get a reference to the service
+export const db = getFirestore(app);
 
 export default app;
