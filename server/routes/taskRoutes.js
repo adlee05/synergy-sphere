@@ -1,35 +1,29 @@
 import express from 'express';
+import { verifyFirebaseToken } from '../middleware/firebaseAuth.js';
+import {
+  createTask,
+  getTasks,
+  getTaskById,
+  updateTask,
+  deleteTask
+} from '../controllers/taskController.js';
+
 const router = express.Router();
 
 // Create task
-router.post('/:id/tasks', (req, res) => {
-  // TODO: Create task for project
-  res.send('Create task');
-});
+router.post('/:id/tasks', verifyFirebaseToken, createTask);
 
 // List tasks
-router.get('/:id/tasks', (req, res) => {
-  // TODO: List tasks for project
-  res.send('List tasks');
-});
+router.get('/:id/tasks', verifyFirebaseToken, getTasks);
 
 // Task details
-router.get('/tasks/:taskId', (req, res) => {
-  // TODO: Get task details
-  res.send('Task details');
-});
+router.get('/tasks/:taskId', verifyFirebaseToken, getTaskById);
 
 // Update task
-router.put('/tasks/:taskId', (req, res) => {
-  // TODO: Update task
-  res.send('Update task');
-});
+router.put('/tasks/:taskId', verifyFirebaseToken, updateTask);
 
 // Delete task
-router.delete('/tasks/:taskId', (req, res) => {
-  // TODO: Delete task
-  res.send('Delete task');
-});
+router.delete('/tasks/:taskId', verifyFirebaseToken, deleteTask);
 
 export default router;
 

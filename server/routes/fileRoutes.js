@@ -1,29 +1,20 @@
 import express from 'express';
+import { verifyFirebaseToken } from '../middleware/firebaseAuth.js';
+import { upload, uploadFile, getFiles, downloadFile, deleteFile } from '../controllers/fileController.js';
+
 const router = express.Router();
 
 // Upload file
-router.post('/:id/files', (req, res) => {
-  // TODO: Handle file upload
-  res.send('Upload file');
-});
+router.post('/:id/files', verifyFirebaseToken, upload.single('file'), uploadFile);
 
 // List files
-router.get('/:id/files', (req, res) => {
-  // TODO: List project files
-  res.send('List files');
-});
+router.get('/:id/files', verifyFirebaseToken, getFiles);
 
 // Download/view file
-router.get('/files/:fileId', (req, res) => {
-  // TODO: Download/view file
-  res.send('Download/view file');
-});
+router.get('/files/:fileId', verifyFirebaseToken, downloadFile);
 
 // Delete file
-router.delete('/files/:fileId', (req, res) => {
-  // TODO: Delete file
-  res.send('Delete file');
-});
+router.delete('/files/:fileId', verifyFirebaseToken, deleteFile);
 
 export default router;
 

@@ -1,35 +1,25 @@
 import express from 'express';
+import { verifyFirebaseToken } from '../middleware/firebaseAuth.js';
+import {
+  syncUser,
+  getProfile,
+  updateProfile,
+  getUserById
+} from '../controllers/userController.js';
+
 const router = express.Router();
 
-// Register
-router.post('/register', (req, res) => {
-  // TODO: Implement registration
-  res.send('Register route');
-});
-
-// Login
-router.post('/login', (req, res) => {
-  // TODO: Implement login
-  res.send('Login route');
-});
+// Sync user with Firebase data
+router.post('/sync-user', verifyFirebaseToken, syncUser);
 
 // Get own profile
-router.get('/me', (req, res) => {
-  // TODO: Use auth middleware and fetch user
-  res.send('Profile route');
-});
+router.get('/me', verifyFirebaseToken, getProfile);
 
 // Update own profile
-router.put('/me', (req, res) => {
-  // TODO: Implement profile update
-  res.send('Update profile');
-});
+router.put('/me', verifyFirebaseToken, updateProfile);
 
-// Get user by ID (admin only)
-router.get('/:id', (req, res) => {
-  // TODO: Fetch a user by ID
-  res.send('Get user by ID');
-});
+// Get user by ID
+router.get('/:id', verifyFirebaseToken, getUserById);
 
 export default router;
 

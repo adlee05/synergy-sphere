@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
-import authService from '../services/authService';
 import { FaEye, FaEyeSlash, FaSun, FaMoon } from 'react-icons/fa';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -21,7 +20,7 @@ const SignupPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const { login } = useAuth();
+  const { signup } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
 
@@ -53,12 +52,22 @@ const SignupPage = () => {
     }
 
     try {
-      const { confirmPassword, ...signupData } = formData;
-      const response = await authService.signup(signupData);
-      login(response.token);
+      const displayName = `${formData.firstName} ${formData.lastName}`;
+      await signup(formData.email, formData.password, displayName);
       navigate('/dashboard');
     } catch (error) {
-      setError(error.message || 'Signup failed. Please try again.');
+      console.error('Signup error:', error);
+      let errorMessage = 'Signup failed. Please try again.';
+      
+      if (error.code === 'auth/email-already-in-use') {
+        errorMessage = 'An account with this email already exists.';
+      } else if (error.code === 'auth/invalid-email') {
+        errorMessage = 'Invalid email address.';
+      } else if (error.code === 'auth/weak-password') {
+        errorMessage = 'Password is too weak. Please choose a stronger password.';
+      }
+      
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
